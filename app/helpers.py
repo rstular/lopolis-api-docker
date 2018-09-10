@@ -2,6 +2,17 @@ from bs4 import BeautifulSoup
 
 HOST = "https://www.lopolis.si"
 
+def About():
+    info = {}
+    info["author"] = "Rok Stular"
+    info["author_website"] = "https://rstular.github.io/"
+    info["documentation"] = "https://rstular.github.io/lopolis.html"
+    info["license"] = "https://github.com/rstular/lopolis-api/blob/master/LICENSE"
+    info["source"] = "https://github.com/rstular/lopolis-api"
+    info["bug_reports"] = "https://rstular.github.io/contact.html"
+    info["version"] = "1.0.0"
+    return info
+
 Unauthorized = {"error": True, "status_code": 401}
 BadRequest = {"error": True, "status_code": 400}
 

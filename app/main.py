@@ -1,8 +1,9 @@
 import json
 
-from flask import Flask, request, make_response
+from flask import Flask, make_response, request
 
 import api_lib
+from helpers import About
 
 app = Flask(__name__)
 
@@ -54,8 +55,6 @@ def setmenus():
     else:
         return "{\"error\": true, \"status_code\": 400}", 400
 
-@app.route("/documentation", methods=["GET", "POST"])
-def documentation():
-    resp = make_response(("", 301, {"Location": "https://rstular.github.io/lopolis.html"}))
-    return resp
-    
+@app.route("/about", methods=["GET"])
+def version():
+    return json.dumps(About()), 200
