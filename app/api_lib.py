@@ -139,14 +139,16 @@ def GetCheckouts(login_token, year, month):
         if form["action"] == "/Prehrana/Odjava":
 
             tbody = form.find("table").tbody
-            checkouts = {}
+            checkouts = []
 
             for tr in tbody.find_all("tr"):
 
                 tds = tr.find_all("td")
                 checkbox_contents = [x for x in tds[3].contents if x != "\n"]
                 date = checkbox_contents[2]["value"]
-                checkouts[date] = not checkbox_contents[0].get("checked") is None
+                
+                if not checkbox_contents[0].get("checked") is None:
+                    checkouts.append(date)
 
             return Success(checkouts)
 
