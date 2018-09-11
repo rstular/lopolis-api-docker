@@ -43,7 +43,7 @@ def GetMenus(login_token, year, month):
     response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78", cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"))
+    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Prednarocanje")
     del(soup)
 
     try:
@@ -112,6 +112,46 @@ def GetMenus(login_token, year, month):
             return Success(menu)
     return Unauthorized
 
+def GetCheckouts(login_token, year, month):
+
+    sess = requests.Session()
+    sess.get(HOST)
+
+    sess_cookies = sess.cookies.get_dict()
+    sess_cookies[".LopolisPortalAuth"] = login_token
+    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=77", cookies=sess_cookies)
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Odjava")
+    del(soup)
+
+    try:
+        osebaID, osebaTip, ustanovaID = osebaModel.split(";")
+    except:
+        return Unauthorized
+
+    json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": year, "X-Requested-With": "XMLHttpRequest"}
+    response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=77", data=json_data, cookies=sess_cookies)
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    for form in soup.find_all("form"):
+
+        if form["action"] == "/Prehrana/Odjava":
+
+            tbody = form.find("table").tbody
+            checkouts = {}
+
+            for tr in tbody.find_all("tr"):
+
+                tds = tr.find_all("td")
+                checkbox_contents = [x for x in tds[3].contents if x != "\n"]
+                date = checkbox_contents[2]["value"]
+                checkouts[date] = not checkbox_contents[0].get("checked") is None
+
+            return Success(checkouts)
+
+    return Unauthorized
+
 def SetMenus(login_token, choices):
 
     if len(choices) > 31 or len(choices) < 1:
@@ -132,7 +172,7 @@ def SetMenus(login_token, choices):
     response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78", cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"))
+    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Prednarocanje")
     del(soup)
 
     try:

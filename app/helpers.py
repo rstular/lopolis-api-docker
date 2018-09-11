@@ -22,12 +22,12 @@ def OtherError(status_code):
 def Success(data=None):
     return {"error": False, "status_code": 200} if data is None else {"error": False, "status_code": 200, "data": data}
 
-def Get_RVT_Oseba(input_forms):
+def Get_RVT_Oseba(input_forms, action):
     osebaModel = ""
     verificationToken = ""
     for form in input_forms:
 
-            if form["action"] == "/Prehrana/Prednarocanje":
+            if form["action"] == action:
                 for inputField in form.find_all("input"):
                     if inputField.get("name") == "__RequestVerificationToken":
                         verificationToken = inputField.get("value")
