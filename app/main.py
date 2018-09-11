@@ -78,7 +78,7 @@ def setcheckouts():
 
     content = request.get_json()
 
-    if len(content) == 1 and "choices" in content and not request.headers.get("Authorization") is None:
+    if len(content) == 1 and "checkouts" in content and not request.headers.get("Authorization") is None:
         try:
             authorization_token = request.headers.get("Authorization").split("Bearer ")[1]
             if len(authorization_token) != 288:
@@ -86,7 +86,7 @@ def setcheckouts():
         except:
            return "{\"error\": true, \"status_code\": 400}", 400 
         
-        checkouts_result = api_lib.SetCheckouts(authorization_token, content["choices"])
+        checkouts_result = api_lib.SetCheckouts(authorization_token, content["checkouts"])
         return json.dumps(checkouts_result), checkouts_result["status_code"]
 
     else:
