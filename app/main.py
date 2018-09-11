@@ -73,6 +73,25 @@ def setmenus():
     else:
         return "{\"error\": true, \"status_code\": 400}", 400
 
+@app.route("/setcheckouts", methods=["POST"])
+def setcheckouts():
+
+    content = request.get_json()
+
+    if len(content) == 1 and "choices" in content and not request.headers.get("Authorization") is None:
+        try:
+            authorization_token = request.headers.get("Authorization").split("Bearer ")[1]
+            if len(authorization_token) != 288:
+                raise ValueError("Token not the right length")
+        except:
+           return "{\"error\": true, \"status_code\": 400}", 400 
+        
+        checkouts_result = api_lib.SetCheckouts(authorization_token, content["choices"])
+        return json.dumps(checkouts_result), checkouts_result["status_code"]
+
+    else:
+        return "{\"error\": true, \"status_code\": 400}", 400
+
 @app.route("/about", methods=["GET"])
 def version():
     return json.dumps(About()), 200
