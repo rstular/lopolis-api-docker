@@ -10,7 +10,8 @@ def About():
     info["license"] = "https://github.com/rstular/lopolis-api/blob/master/LICENSE"
     info["source"] = "https://github.com/rstular/lopolis-api"
     info["bug_reports"] = "https://rstular.github.io/contact.html"
-    info["version"] = "1.0.0"
+    info["changelog"] = "https://github.com/rstular/lopolis-api/blob/master/CHANGELOG.md"
+    info["version"] = "1.0.1"
     return info
 
 Unauthorized = {"error": True, "status_code": 401}
