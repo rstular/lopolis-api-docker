@@ -98,4 +98,4 @@ def version():
 
 @app.route("/", methods=["GET"])
 def root():
-    return "<h3><a href=\"https://rstular.github.io/lopolis.html\">https://rstular.github.io/lopolis.html</a></h3>", 200
+    return "<h3><a href=\"https://rstular.github.io/projects/lopolis.html\">https://rstular.github.io/projects/lopolis.html</a></h3>", 200

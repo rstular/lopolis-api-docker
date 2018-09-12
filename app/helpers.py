@@ -6,12 +6,12 @@ def About():
     info = {}
     info["author"] = "Rok Stular"
     info["author_website"] = "https://rstular.github.io/"
-    info["documentation"] = "https://rstular.github.io/lopolis.html"
+    info["documentation"] = "https://rstular.github.io/projects/lopolis.html"
     info["license"] = "https://github.com/rstular/lopolis-api/blob/master/LICENSE"
     info["source"] = "https://github.com/rstular/lopolis-api"
     info["bug_reports"] = "https://rstular.github.io/contact.html"
     info["changelog"] = "https://github.com/rstular/lopolis-api/blob/master/CHANGELOG.md"
-    info["version"] = "1.0.2"
+    info["version"] = "1.0.4"
     return info
 
 Unauthorized = {"error": True, "status_code": 401}

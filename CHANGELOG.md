@@ -1,4 +1,6 @@
 # Changelog
+## Version 1.0.4
+* Documentation links changed
 ## Version 1.0.3
 * Added `/` endpoint (for browser users), which redirects to [documentation](https://rstular.github.io/lopolis.html)
 * Dockerfile performance fix
