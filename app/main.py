@@ -95,3 +95,7 @@ def setcheckouts():
 @app.route("/about", methods=["GET"])
 def version():
     return json.dumps(About()), 200
+
+@app.route("/", methods=["GET"])
+def root():
+    return "<h3><a href=\"https://rstular.github.io/lopolis.html\">https://rstular.github.io/lopolis.html</a></h3>", 200
