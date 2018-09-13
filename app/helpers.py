@@ -9,7 +9,7 @@ def About():
     info["documentation"] = "https://rstular.github.io/projects/lopolis.html"
     info["license"] = "https://github.com/rstular/lopolis-api/blob/master/LICENSE"
     info["source"] = "https://github.com/rstular/lopolis-api"
-    info["bug_reports"] = "https://rstular.github.io/contact.html"
+    info["bug_reports"] = "https://github.com/rstular/lopolis-api/issues"
     info["changelog"] = "https://github.com/rstular/lopolis-api/blob/master/CHANGELOG.md"
     info["version"] = "1.0.5"
     return info
