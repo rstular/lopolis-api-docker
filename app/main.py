@@ -164,4 +164,4 @@ def teapot():
 
 @app.errorhandler(404)
 def handler(e):
-    return json.dumps({"error": True, "status_code": 400, "message": "Not found"}), 404
+    return json.dumps({"error": True, "status_code": 404, "message": "Not found"}), 404
