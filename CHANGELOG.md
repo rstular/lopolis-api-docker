@@ -1,4 +1,8 @@
 # Changelog
+## Version 1.0.6
+* Performance tweaks
+* Refactoring code
+* Easter egg
 ## Version 1.0.5
 * Docker now using [Alpine Linux](https://alpinelinux.org/) image, which is *much* smaller than [Debian](https://www.debian.org/) image
 * Docker is now also using *gunicorn* web server (instead of *NGINX*)
