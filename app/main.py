@@ -1,11 +1,11 @@
 import json
 import os
 
-from flask import Flask, request
+from flask import Flask, redirect, request
 from user_agents import parse
 
 import api_lib
-from functions import About, BadRequest, RootPage
+from functions import About, BadRequest
 from helpers import *
 
 app = Flask(__name__)
@@ -106,7 +106,12 @@ def version():
 
 @app.route("/", methods=["GET"])
 def root():
-    return RootPage, 200
+    return redirect(About()["documentation"], code=302)
+
+@app.errorhandler(404)
+def handler(e):
+    return json.dumps({"error": True, "status_code": 404, "message": "Not found"}), 404
+
 
 @app.route("/coffeepot", methods=["GET"])
 def getcoffee():
@@ -149,7 +154,6 @@ def brewcoffee():
     else:
         return json.dumps(BadRequest), 400
 
-
 @app.route("/coffeepot", methods=["WHEN"])
 def whencoffee():
     if app.coffee_state == 1:
@@ -161,7 +165,3 @@ def whencoffee():
 @app.route("/teapot")
 def teapot():
     return json.dumps(ImATeapot), 418
-
-@app.errorhandler(404)
-def handler(e):
-    return json.dumps({"error": True, "status_code": 404, "message": "Not found"}), 404

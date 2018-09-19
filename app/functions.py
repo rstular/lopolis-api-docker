@@ -16,7 +16,6 @@ def About():
 
 Unauthorized = {"error": True, "status_code": 401, "message": "Unauthorized"}
 BadRequest = {"error": True, "status_code": 400, "message": "Bad request"}
-RootPage = "<center><h3>API Documentation: <a href=\"https://rstular.github.io/projects/lopolis.html\">https://rstular.github.io/projects/lopolis.html</a></h3></center>"
 
 def OtherError(status_code):
     return {"error": True, "status_code": status_code}
