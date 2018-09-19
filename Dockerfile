@@ -7,4 +7,4 @@ RUN pip install -r /app/requirements.txt
 
 WORKDIR /app
 
-CMD [ "gunicorn",  "-b", ":80", "main:app" ]
+CMD [ "gunicorn", "--workers", "100", "-b", ":80", "main:app" ]
