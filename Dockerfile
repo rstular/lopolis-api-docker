@@ -31,9 +31,6 @@ COPY config/uwsgi.ini /etc/uwsgi/
 # Custom Supervisord config
 COPY config/supervisord.conf /etc/supervisord.conf
 
-# Copy error page(s)
-COPY ./static/error /error_pages
-
 # Add app
 COPY ./app /app
 WORKDIR /app
