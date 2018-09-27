@@ -31,17 +31,5 @@ def HTMLGetCoffee():
         "</html>")
     return output
 
-def GetCoffee(coffee):
-    return {"error": False, "order": {"coffee": coffee, "message": "Here you go!"}, "status_code": 200}
-
-def AcceptCoffee(coffee):
-    return {"error": False, "message": coffee, "status_code": 202}
-
-CoffeeAlreadyBrewing = {"error": True, "status_code": 503, "message": "Coffee is already being brewed"}
-NoCoffeeBrewing = {"error": True, "message": "No coffee is currently being brewed", "status_code": 404}
-CoffeeBrewed = {"error": False, "message": "Coffe brewed!", "status_code": 201}
-NonExistentType = {"error": True, "message": "Non-existent coffee type", "status_code": 406}
-NoCoffee = {"error": True, "status_code": 404, "message": "No coffee available!"}
-CoffeeAlreadyDone = {"error": True, "status_code": 302, "message": "Coffee has already been brewed"}
-NonExistentAdditions = {"error": True, "message": "Non-existent additions", "status_code": 406}
+GetCoffee = {"error": False, "order": {"coffee": "A cup of coffee", "message": "Here you go!"}, "status_code": 200}
 ImATeapot = {"error": True, "message": "I am a teapot!", "status_code": 418}

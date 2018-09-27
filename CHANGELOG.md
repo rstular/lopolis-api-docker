@@ -1,4 +1,11 @@
 # Changelog
+## Version 1.0.8
+* The app is now powered by [nginx](https://www.nginx.com/) (again) and [uWSGI](http://projects.unbit.it/uwsgi) for better performance
+* Rate limiting (maximum of **5 r/s**)
+* Simplified easter egg
+* Fixed response `Content-Type` header
+## Version 1.0.7
+* Home page redirect
 ## Version 1.0.6
 * Performance tweaks
 * Refactoring code

@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>503 Service Temporarily Unavailable</title>
+        <style>
+            body.dark-mode {
+                background-color: #111;
+                color: #eee;
+            }
+            body.dark-mode a {
+                color: #111;
+            }
+            body.dark-mode button {
+                background-color: #111;
+                color: #eee;
+            }
+
+            body.light-mode {
+                background-color: #eee;
+                color: #111;
+            }
+            body.light-mode a {
+                color: #111;
+            }
+            body.light-mode button {
+                background-color: #eee;
+                color: #111;
+            }
+        </style>
+        <script>
+            function toggleDarkLight() {
+                var body = document.getElementById("body");
+                var currentClass = body.className;
+                body.className = currentClass == "dark-mode" ? "light-mode" : "dark-mode";
+            }
+        </script>
+    </head>
+    <body id="body" class="light-mode">
+        <center>
+            <h1>503 Service Temporarily Unavailable</h1>
+        </center>
+        <hr>
+        <center>
+            nginx
+            <br>
+            <br>
+            <button type="button" name="dark_light" onclick="toggleDarkLight()" title="Toggle dark/light mode">Toggle dark theme</button>
+        </center>
+    </body>
+</html>

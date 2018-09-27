@@ -5,11 +5,11 @@ import json
 
 import requests
 
-HOST = "http://localhost/"
+HOST = "https://lopolis-api.now.sh/"
 
 r = requests.post(HOST + "gettoken", data=json.dumps({"username": "<username>", "password": "<password>"}), headers={"Content-Type": "application/json"})
 
-jsonData = json.dumps({"choices": {"2018-09-24T00:00:00.0000000": "Malica", "2018-09-21T00:00:00.0000000": "Malica"}})
+jsonData = json.dumps({"choices": {"<date>": "<meal>", "<date2>": "<meal2>"}})
 
 data2 = requests.post(HOST + "setcheckouts", data=jsonData, headers={"Content-Type": "application/json", "Authorization": "Bearer " + json.loads(r.text)["data"]})
 

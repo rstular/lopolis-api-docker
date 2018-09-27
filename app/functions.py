@@ -1,9 +1,14 @@
+import json
+
 from bs4 import BeautifulSoup
+from flask import Response
 
 HOST = "https://www.lopolis.si"
 
 def About():
     info = {}
+    info["error"] = False
+    info["status_code"] = 200
     info["author"] = "Rok Stular"
     info["author_website"] = "https://rstular.github.io/"
     info["documentation"] = "https://rstular.github.io/projects/lopolis.html"
@@ -11,7 +16,7 @@ def About():
     info["source"] = "https://github.com/rstular/lopolis-api"
     info["bug_reports"] = "https://github.com/rstular/lopolis-api/issues"
     info["changelog"] = "https://github.com/rstular/lopolis-api/blob/master/CHANGELOG.md"
-    info["version"] = "1.0.6"
+    info["version"] = "1.0.8"
     return info
 
 Unauthorized = {"error": True, "status_code": 401, "message": "Unauthorized"}
@@ -41,3 +46,6 @@ def Get_RVT_Oseba(input_forms, action):
                 break
 
     return verificationToken, osebaModel
+
+def JSONResponse(input_dict):
+    return Response(json.dumps(input_dict), status=input_dict["status_code"], mimetype="application/json")
