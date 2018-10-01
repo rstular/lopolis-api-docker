@@ -5,7 +5,7 @@ import json
 
 import requests
 
-HOST = "http://localhost/"
+HOST = "https://lopolis-api.now.sh/"
 
 r = requests.post(HOST + "gettoken", data=json.dumps({"username": "<username>", "password": "<password>"}), headers={"Content-Type": "application/json"})
 
