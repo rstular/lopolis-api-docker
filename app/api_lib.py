@@ -5,6 +5,7 @@ from functions import *
 
 import json
 
+
 def GetToken(username, password):
 
     sess = requests.Session()
@@ -21,7 +22,8 @@ def GetToken(username, password):
                     verificationToken = inputField["value"]
                     break
 
-    json_data = {"__RequestVerificationToken": verificationToken, "Uporabnik": username, "Geslo": password, "OsveziURL": "https://www.lopolis.si/", "X-Requested-With": "XMLHttpRequest"}
+    json_data = {"__RequestVerificationToken": verificationToken, "Uporabnik": username,
+                 "Geslo": password, "OsveziURL": "https://www.lopolis.si/", "X-Requested-With": "XMLHttpRequest"}
 
     response = sess.post(HOST, data=json_data)
 
@@ -41,10 +43,12 @@ def GetMenus(login_token, year, month):
 
     sess_cookies = sess.cookies.get_dict()
     sess_cookies[".LopolisPortalAuth"] = login_token
-    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78", cookies=sess_cookies)
+    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78",
+                        cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Prednarocanje")
+    verificationToken, osebaModel = Get_RVT_Oseba(
+        soup.find_all("form"), "/Prehrana/Prednarocanje")
     del(soup)
 
     try:
@@ -52,8 +56,10 @@ def GetMenus(login_token, year, month):
     except:
         return Unauthorized
 
-    json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": year, "X-Requested-With": "XMLHttpRequest"}
-    response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=78", data=json_data, cookies=sess_cookies)
+    json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                 "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": year, "X-Requested-With": "XMLHttpRequest"}
+    response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=78",
+                         data=json_data, cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
     for form in soup.find_all("form"):
@@ -89,8 +95,10 @@ def GetMenus(login_token, year, month):
 
                             if option.get("value") != "":
 
-                                menuOutput = {"value": option.get("value"), "text": option.contents[0]}
-                                menuOutput["selected"] = not option.get("selected") is None
+                                menuOutput = {"value": option.get(
+                                    "value"), "text": option.contents[0]}
+                                menuOutput["selected"] = not option.get(
+                                    "selected") is None
                                 dayOutput["menu_options"].append(menuOutput)
 
                     else:
@@ -99,9 +107,10 @@ def GetMenus(login_token, year, month):
                     menuOutput = None
                     for option in menuOptions:
                         if not option.get("value") == "" and not option.get("selected") is None and not option.contents[0] == "":
-                            menuOutput = {"value": option.get("value"), "text": option.contents[0]}
+                            menuOutput = {"value": option.get(
+                                "value"), "text": option.contents[0]}
                             dayOutput["readonly"] = True
-                    
+
                     if not menuOutput is None:
                         dayOutput["menu_options"].append(menuOutput)
                     else:
@@ -109,9 +118,10 @@ def GetMenus(login_token, year, month):
 
                 if not empty:
                     menu[date] = dayOutput
-                    
+
             return Success(menu)
     return Unauthorized
+
 
 def GetCheckouts(login_token, year, month):
 
@@ -120,10 +130,12 @@ def GetCheckouts(login_token, year, month):
 
     sess_cookies = sess.cookies.get_dict()
     sess_cookies[".LopolisPortalAuth"] = login_token
-    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=77", cookies=sess_cookies)
+    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=77",
+                        cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Odjava")
+    verificationToken, osebaModel = Get_RVT_Oseba(
+        soup.find_all("form"), "/Prehrana/Odjava")
     del(soup)
 
     try:
@@ -131,8 +143,10 @@ def GetCheckouts(login_token, year, month):
     except:
         return Unauthorized
 
-    json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": year, "X-Requested-With": "XMLHttpRequest"}
-    response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=77", data=json_data, cookies=sess_cookies)
+    json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                 "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": year, "X-Requested-With": "XMLHttpRequest"}
+    response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=77",
+                         data=json_data, cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
     for form in soup.find_all("form"):
@@ -147,13 +161,14 @@ def GetCheckouts(login_token, year, month):
                 tds = tr.find_all("td")
                 checkbox_contents = [x for x in tds[3].contents if x != "\n"]
                 date = checkbox_contents[2]["value"]
-                
+
                 if not checkbox_contents[0].get("checked") is None:
                     checkouts[date] = tds[1].contents[0].split("\r")[0]
 
             return Success(checkouts)
 
     return Unauthorized
+
 
 def SetCheckouts(login_token, choices):
 
@@ -165,17 +180,19 @@ def SetCheckouts(login_token, choices):
         if len(months) > 2:
             return BadRequest
         months[month.split("-")[1].strip("0")] = month.split("-")[0]
-    
+
     sess = requests.Session()
 
     response = sess.get(HOST)
 
     sess_cookies = sess.cookies.get_dict()
     sess_cookies[".LopolisPortalAuth"] = login_token
-    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=77", cookies=sess_cookies)
+    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=77",
+                        cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Odjava")
+    verificationToken, osebaModel = Get_RVT_Oseba(
+        soup.find_all("form"), "/Prehrana/Odjava")
     del(soup)
 
     try:
@@ -187,8 +204,10 @@ def SetCheckouts(login_token, choices):
 
     for month in months:
 
-        json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
-        response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=77", data=json_data, cookies=sess_cookies)
+        json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                     "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
+        response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=77",
+                             data=json_data, cookies=sess_cookies)
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -203,7 +222,8 @@ def SetCheckouts(login_token, choices):
                         verificationToken = inputField.get("value")
                         break
 
-                json_data = {"__RequestVerificationToken": verificationToken, "Shrani": "Shrani", "Ukaz": "Shrani", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
+                json_data = {"__RequestVerificationToken": verificationToken, "Shrani": "Shrani", "Ukaz": "Shrani", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                             "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
 
                 tbody = form.find("table").tbody
 
@@ -215,26 +235,31 @@ def SetCheckouts(login_token, choices):
 
                     if not checkboxContent[2].get("value") in dateIndexing:
                         dateIndexing[checkboxContent[2].get("value")] = {}
-                    dateIndexing[checkboxContent[2].get("value")][tds[1].contents[0].split("\r")[0]] = checkboxContent[2].get("id").split("_")[1]
+                    dateIndexing[checkboxContent[2].get("value")][tds[1].contents[0].split("\r")[
+                        0]] = checkboxContent[2].get("id").split("_")[1]
 
                     for inputField in checkboxContent:
                         pass
                         if not "CheckOut" in inputField.get("name"):
-                            json_data[inputField.get("name")] = inputField.get("value")
+                            json_data[inputField.get(
+                                "name")] = inputField.get("value")
                         else:
                             json_data[inputField.get("name")] = "false"
 
                 for date in choices:
                     try:
-                        json_data["OdjavaItems[%s].CheckOut" % dateIndexing[date][choices[date]]] = ["true", "false"]
+                        json_data["OdjavaItems[%s].CheckOut" %
+                                  dateIndexing[date][choices[date]]] = ["true", "false"]
                     except KeyError:
                         return BadRequest
-                    
-                response_status = sess.post(HOST + "/Prehrana/Odjava", data=json_data, cookies=sess_cookies).status_code
+
+                response_status = sess.post(
+                    HOST + "/Prehrana/Odjava", data=json_data, cookies=sess_cookies).status_code
                 if response_status != 200:
                     res_code = response_status
-    
+
     return Success() if res_code == 200 else OtherError(res_code)
+
 
 def SetMenus(login_token, choices):
 
@@ -246,17 +271,19 @@ def SetMenus(login_token, choices):
         if len(months) > 2:
             return BadRequest
         months[month.split("-")[1].strip("0")] = month.split("-")[0]
-    
+
     sess = requests.Session()
 
     response = sess.get(HOST)
 
     sess_cookies = sess.cookies.get_dict()
     sess_cookies[".LopolisPortalAuth"] = login_token
-    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78", cookies=sess_cookies)
+    response = sess.get(HOST + "/?MeniZgorajID=6&MeniID=78",
+                        cookies=sess_cookies)
 
     soup = BeautifulSoup(response.text, "html.parser")
-    verificationToken, osebaModel = Get_RVT_Oseba(soup.find_all("form"), "/Prehrana/Prednarocanje")
+    verificationToken, osebaModel = Get_RVT_Oseba(
+        soup.find_all("form"), "/Prehrana/Prednarocanje")
     del(soup)
 
     try:
@@ -268,8 +295,10 @@ def SetMenus(login_token, choices):
 
     for month in months:
 
-        json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
-        response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=78", data=json_data, cookies=sess_cookies)
+        json_data = {"__RequestVerificationToken": verificationToken, "Ukaz": "", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                     "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
+        response = sess.post(HOST + "/?MeniZgorajID=6&MeniID=78",
+                             data=json_data, cookies=sess_cookies)
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -284,7 +313,8 @@ def SetMenus(login_token, choices):
                         verificationToken = inputField.get("value")
                         break
 
-                json_data = {"__RequestVerificationToken": verificationToken, "Shrani": "Shrani", "Ukaz": "Shrani", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID, "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
+                json_data = {"__RequestVerificationToken": verificationToken, "Shrani": "Shrani", "Ukaz": "Shrani", "OsebaModel.ddlOseba": osebaModel, "OsebaModel.OsebaID": osebaID,
+                             "OsebaModel.OsebaTipID": osebaTip, "OsebaModel.UstanovaID": ustanovaID, "MesecModel.Mesec": month, "MesecModel.Leto": months[month], "X-Requested-With": "XMLHttpRequest"}
 
                 tbody = form.find("table").tbody
 
@@ -297,17 +327,20 @@ def SetMenus(login_token, choices):
                     for inputField in menuContent:
                         if inputField.name == "input":
                             fieldID = inputField.get("id").split("_")
-                            json_data["PrednarocanjeItems[%s].%s" % (fieldID[1], fieldID[3].replace("ABO", "ABO_PrijavaID"))] = inputField.get("value")
+                            json_data["PrednarocanjeItems[%s].%s" % (fieldID[1], fieldID[3].replace(
+                                "ABO", "ABO_PrijavaID"))] = inputField.get("value")
                             if fieldID[3] == "Datum":
-                                dateIndexing[inputField.get("value")] = fieldID[1]
+                                dateIndexing[inputField.get(
+                                    "value")] = fieldID[1]
 
                 temp_json_data = {}
 
                 for json_header in json_data:
                     if "ReadOnly" in json_header and json_data[json_header] == "False":
                         headerID = json_header.split("[")[1].split("]")[0]
-                        temp_json_data["PrednarocanjeItems[%s].MeniIDSkupinaID" % headerID] = ""
-                
+                        temp_json_data["PrednarocanjeItems[%s].MeniIDSkupinaID" %
+                                       headerID] = ""
+
                 for entry in temp_json_data:
                     json_data[entry] = temp_json_data[entry]
 
@@ -315,10 +348,12 @@ def SetMenus(login_token, choices):
 
                 for date in choices:
                     index = dateIndexing[date]
-                    json_data["PrednarocanjeItems[%s].MeniIDSkupinaID" % index] = choices[date]
+                    json_data["PrednarocanjeItems[%s].MeniIDSkupinaID" %
+                              index] = choices[date]
 
-                response_status = sess.post(HOST + "/Prehrana/Prednarocanje", data=json_data, cookies=sess_cookies).status_code
+                response_status = sess.post(
+                    HOST + "/Prehrana/Prednarocanje", data=json_data, cookies=sess_cookies).status_code
                 if response_status != 200:
                     res_code = response_status
-    
+
     return Success() if res_code == 200 else OtherError(res_code)

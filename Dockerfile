@@ -2,7 +2,7 @@ FROM alpine
 
 LABEL maintainer.name="rstular"
 LABEL maintainer.website="https://rstular.github.io"
-LABEL version="1.0.8"
+LABEL version="1.0.9"
 LABEL description "Lopolis API hosted on Nginx + uWSGI + Flask based on Alpine Linux and managed by Supervisord"
 
 # Copy python requirements file
